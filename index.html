@@ -1,79 +1,369 @@
 <!DOCTYPE html>
-<script src="https://d3js.org/d3.v4.min.js"></script>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+<style>
+body {font-family: Arial;}
 
-<style> .chart rect { fill: steelblue } </style>
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
 
-<html><body>
-<p><span id="data"></span></p>
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
 
-<svg class="chart"></svg>
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+/* Style the close button */
+.topright {
+  float: right;
+  cursor: pointer;
+  font-size: 28px;
+}
+
+.topright:hover {color: red;}
+
+.chart rect { fill: steelblue } 
+.chartLaptop rect { fill: steelblue } 
+.chartDesktop rect { fill: steelblue } 
+.chartKeyboard rect { fill: steelblue } 
+.chartMonitors rect { fill: steelblue } 
+
+.toolTip {
+  position: absolute;
+  display: none;
+  min-width: 80px;
+  height: auto;
+  background: none repeat scroll 0 0 #ffffff;
+  border: 1px solid #6F257F;
+  padding: 14px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<h2>Technology products sale for different category of products</h2>
+<!-- <p>Click on the x button in the top right corner to close the current tab:</p> -->
+
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'Overview')" id="defaultOpen">Overview</button>
+  <button class="tablinks" onclick="openCity(event, 'Laptop')">Laptop</button>
+  <button class="tablinks" onclick="openCity(event, 'Desktop')">Desktop</button>
+  <button class="tablinks" onclick="openCity(event, 'Keyboard')">Keyboards</button>
+  <button class="tablinks" onclick="openCity(event, 'Monitors')">Monitors</button>
+  <button class="tablinks" onclick="openCity(event, 'Order-Distributions')">Order-Distributions</button>
+ 
+</div>
+<div id="Overview" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+  <h3>Laptop</h3>
+  <p>Imapact of Covid-19 on 2020 Sales</p>
+  <svg class="chart"></svg>
+</div>
+
+<div id="Laptop" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+  <h3>Laptop</h3>
+  <svg class="chartLaptop"></svg>
+</div>
+
+<div id="Desktop" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+  <h3>Desktop</h3>
+  <p><span id="data"></span></p>
+  <svg class="chartDesktop"></svg>
+</div>
+
+<div id="Keyboard" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+  <h3>Keyboards</h3>
+  <svg class="chartKeyboard"></svg>
+</div>
+
+<div id="Monitors" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+  <h3>Keyboards</h3>
+  <svg class="chartMonitors"></svg>
+</div>
+
+<div id="Order-Distributions" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+  <p> All the orders are fullfilled from two warehouses. One of the warehouse is mailny responsible of delivering products on 
+    Eastern and other warehouse isresponsible for wasterns part of USA.</p>
+  <p> Please <a href="OrderDistribution.html">Click here</a> to view a graph of delivery distributions of orders to different states </p>
+  
+</div>
 
 <script>
-var margin = 80;
-var width = 600;
-var height = 300;
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
 
-var data = [293,
-430,
-3104,
-4799,
-4272,
-3322,
-4298,
-233,
-214,
-3882,
-5454,
-4455,
-5915,
-3543,
-265,
-590,
-2596,
-4095,
-4148,
-4893,
-4304,
-179,
-208,
-4685,
-6185,
-4365,
-5010,
-6402,
-185];
-document.getElementById("data").innerHTML = data;
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
 
-var x = d3.scaleBand()
-	.domain([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30])
-    .range([1,width]);
+//D3 code starts here
+
+//________________
+var margin = 500;
+    var width = 820;
+    var height = 520;
+    var padding = 200;
     
-var y = d3.scaleLinear()
-	.domain([0,20000])
-    .range([height,0]);
-
-var chart = d3.select(".chart");
-
-chart.attr("width",width + 2*margin)
-    .attr("height",height + 2*margin)
-    .append("g")
-        .attr("transform","translate(" + margin + "," + margin + ")")
-    .selectAll("rect")
-	.data(data)
-    .enter().append("rect")
-    .attr("width",19)
-    .attr("height",function(d) { return height - y(d); })
-    .attr("x",function(d,i) { return x(i+1); })
-    .attr("y",function(d) { return y(d); });
-
-chart.append("g")
-    .attr("transform", "translate(" + margin + "," + margin + ")")
-    .call(d3.axisLeft(y));
-
-chart.append("g")
-    .attr("transform", "translate(" + margin + "," + (height+margin) + ")")
-    .call(d3.axisBottom(x));
+    var data =  [1525,3862,4736,2963,3209,4136];
+    var dataLaptop =[65,167,248,171,210,222];
+    var dataDesktop =  [42,90,78,33,39,43];
+    var dataKeyboard =  [64,137,236,110,111,126];
+    var dataMonitors =  [60, 127,208,95,96,111];
     
+    
+    var x = d3.scaleBand()
+        .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
+        .range([0,width-margin]);
+        
+    var y = d3.scaleLinear()
+        .domain([0,5560])
+        .range([height -20,0]);
+    
+    var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+    
+    var chart = d3.select(".chart");
+    
+    chart.attr("width",width )
+        .attr("height",height )
+        .append("g")
+            .attr("transform","translate(" + margin + "," + margin + ")")
+        .selectAll("rect")
+        .data(data)
+        .enter().append("rect")
+        .attr("width",45)
+        .attr("height",function(d) { return height - y(d); })
+        .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
+        .attr("y",function(d) { return  y(d) -height ; })
+        .on("mousemove", function(d){
+                tooltip
+                  .style("left", d3.event.pageX - 50 + "px")
+                  .style("top", d3.event.pageY - 70 + "px")
+                  .style("display", "inline-block")
+                  .html("Total Quantity Sold :" + "<br>" + d);
+                  console.log(y(d));
+               
+            })
+        .on("mouseout", function(d){ tooltip.style("display", "none");});
+       
+    chart.append("g")
+    .attr("transform", "translate(" + height + ",0 )")
+        .call(d3.axisLeft(y));
+    
+    chart.append("g")
+    .attr("transform", "translate("  + height + "," + margin + ")")
+        .call(d3.axisBottom(x));
+    
+
+//---------------------Laptop
+
+var xl = d3.scaleBand()
+        .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
+        .range([0,width-margin]);
+        
+    var yl = d3.scaleLinear()
+        .domain([0,250])
+        .range([height -20,0]);
+var chartLaptop = d3.select(".chartLaptop");
+    
+chartLaptop.attr("width",width )
+        .attr("height",height )
+        .append("g")
+            .attr("transform","translate(" + margin + "," + margin + ")")
+        .selectAll("rect")
+        .data(dataLaptop)
+        .enter().append("rect")
+        .attr("width",45)
+        .attr("height",function(d) { return height - y(d); })
+        .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
+        .attr("y",function(d) { return  y(d) -height ; })
+        .on("mousemove", function(d){
+                tooltip
+                  .style("left", d3.event.pageX - 50 + "px")
+                  .style("top", d3.event.pageY - 70 + "px")
+                  .style("display", "inline-block")
+                  .html("Total Quantity Sold :" + "<br>" + d);
+                  console.log(y(d));
+               
+            })
+        .on("mouseout", function(d){ tooltip.style("display", "none");});
+       
+        chartLaptop.append("g")
+    .attr("transform", "translate(" + height + ",0 )")
+        .call(d3.axisLeft(yl));
+    
+        chartLaptop.append("g")
+    .attr("transform", "translate("  + height + "," + margin + ")")
+        .call(d3.axisBottom(xl));
+
+//---------------------Desktop
+
+var xd = d3.scaleBand()
+        .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
+        .range([0,width-margin]);
+        
+    var yd = d3.scaleLinear()
+        .domain([0,100])
+        .range([height -20,0]);
+var chartDesktop = d3.select(".chartDesktop");
+    
+chartDesktop.attr("width",width )
+        .attr("height",height )
+        .append("g")
+            .attr("transform","translate(" + margin + "," + margin + ")")
+        .selectAll("rect")
+        .data(dataDesktop)
+        .enter().append("rect")
+        .attr("width",45)
+        .attr("height",function(d) { return height - y(d); })
+        .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
+        .attr("y",function(d) { return  y(d) -height ; })
+        .on("mousemove", function(d){
+                tooltip
+                  .style("left", d3.event.pageX - 50 + "px")
+                  .style("top", d3.event.pageY - 70 + "px")
+                  .style("display", "inline-block")
+                  .html("Total Quantity Sold :" + "<br>" + d);
+                  console.log(y(d));
+               
+            })
+        .on("mouseout", function(d){ tooltip.style("display", "none");});
+       
+    chartDesktop.append("g")
+    .attr("transform", "translate(" + height + ",0 )")
+        .call(d3.axisLeft(yd));
+    
+    chartDesktop.append("g")
+    .attr("transform", "translate("  + height + "," + margin + ")")
+        .call(d3.axisBottom(xd));
+//---------------------Keyboard
+
+var xk = d3.scaleBand()
+        .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
+        .range([0,width-margin]);
+        
+    var yk = d3.scaleLinear()
+        .domain([0,250])
+        .range([height -20,0]);
+var chartKeyboard = d3.select(".chartKeyboard");
+    
+chartKeyboard.attr("width",width )
+        .attr("height",height )
+        .append("g")
+            .attr("transform","translate(" + margin + "," + margin + ")")
+        .selectAll("rect")
+        .data(dataKeyboard)
+        .enter().append("rect")
+        .attr("width",45)
+        .attr("height",function(d) { return height - y(d); })
+        .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
+        .attr("y",function(d) { return  y(d) -height ; })
+        .on("mousemove", function(d){
+                tooltip
+                  .style("left", d3.event.pageX - 50 + "px")
+                  .style("top", d3.event.pageY - 70 + "px")
+                  .style("display", "inline-block")
+                  .html("Total Quantity Sold :" + "<br>" + d);
+                  console.log(y(d));
+               
+            })
+        .on("mouseout", function(d){ tooltip.style("display", "none");});
+       
+        chartKeyboard.append("g")
+    .attr("transform", "translate(" + height + ",0 )")
+        .call(d3.axisLeft(yk));
+    
+    chartKeyboard.append("g")
+    .attr("transform", "translate("  + height + "," + margin + ")")
+        .call(d3.axisBottom(xk));
+//---------------------Monitors
+
+var xm = d3.scaleBand()
+        .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
+        .range([0,width-margin]);
+        
+var ym = d3.scaleLinear()
+        .domain([0,250])
+        .range([height -20,0]);
+var chartMonotors = d3.select(".chartMonitors");
+    
+chartMonotors.attr("width",width )
+        .attr("height",height )
+        .append("g")
+            .attr("transform","translate(" + margin + "," + margin + ")")
+        .selectAll("rect")
+        .data(dataMonitors)
+        .enter().append("rect")
+        .attr("width",45)
+        .attr("height",function(d) { return height - y(d); })
+        .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
+        .attr("y",function(d) { return  y(d) -height ; })
+        .on("mousemove", function(d){
+                tooltip
+                  .style("left", d3.event.pageX - 50 + "px")
+                  .style("top", d3.event.pageY - 70 + "px")
+                  .style("display", "inline-block")
+                  .html("Total Quantity Sold :" + "<br>" + d);
+                  console.log(y(d));
+               
+            })
+        .on("mouseout", function(d){ tooltip.style("display", "none");});
+       
+    chartMonotors.append("g")
+    .attr("transform", "translate(" + height + ",0 )")
+        .call(d3.axisLeft(ym));
+    
+    chartMonotors.append("g")
+    .attr("transform", "translate("  + height + "," + margin + ")")
+        .call(d3.axisBottom(xm));
+
+
 </script>
-
-</body></html>
+   
+</body>
+</html> 

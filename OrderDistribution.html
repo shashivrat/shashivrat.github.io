@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<style type="text/css">
+</style>
+</head>
+<body>
+
+<div>    
+<a href="index.html">Go Back</a>
+</div>   
+<div id="scatterPlot">
+
+</div>
+
+</body>
+</html>
+<script type="text/javascript">
+
+    var w = 1200;
+    var h = 800;
+    var linkDistance=200;
+
+    var colors = d3.scale.category10();
+
+    var dataset = {
+
+        nodes: [
+{name:"Warehouse-1"},
+{name:"Warehouse-2"},
+{name:"NY"},
+{name:"PR"},
+{name:"VI"},
+{name:"MA"},
+{name:"RI"},
+{name:"NH"},
+{name:"ME"},
+{name:"VT"},
+{name:"CT"},
+{name:"NJ"},
+{name:"AE"},
+{name:"AP"},
+{name:"PA"},
+{name:"DE"},
+{name:"DC"},
+{name:"VA"},
+{name:"MD"},
+{name:"WV"},
+{name:"NC"},
+{name:"SC"},
+{name:"GA"},
+{name:"FL"},
+{name:"AA"},
+{name:"AL"},
+{name:"TN"},
+{name:"MS"},
+{name:"KY"},
+{name:"OH"},
+{name:"IN"},
+{name:"MI"},
+{name:"IA"},
+{name:"WI"},
+{name:"MN"},
+{name:"SD"},
+{name:"ND"},
+{name:"MT"},
+{name:"IL"},
+{name:"MO"},
+{name:"KS"},
+{name:"NE"},
+{name:"LA"},
+{name:"AR"},
+{name:"OK"},
+{name:"TX"},
+{name:"CO"},
+{name:"WY"},
+{name:"ID"},
+{name:"UT"},
+{name:"AZ"},
+{name:"NM"},
+{name:"NV"},
+{name:"CA"},
+{name:"NV"},
+{name:"AE"},
+{name:"AA"},
+{name:"TX"},
+{name:"AP"},
+{name:"UT"},
+{name:"AZ"},
+{name:"CA"},
+{name:"JP"},
+{name:"OR"},
+{name:"WA"},
+{name:"AK"},
+{name:"HI"},
+{name:"AS"},
+{name:"GU"},
+{name:"PW"},
+{name:"FM"},
+{name:"MH"},
+{name:"NM"},
+{name:"CO"},
+{name:"LA"},
+{name:"ID"},
+{name:"WY"},
+{name:"OK"},
+{name:"MO"},
+{name:"KS"},
+{name:"NE"},
+{name:"AR"},
+{name:"IA"},
+{name:"MN"},
+{name:"SD"},
+{name:"ND"},
+{name:"MT"},
+{name:"FL"},
+{name:"VA"},
+{name:"WV"}
+],
+    edges: [
+{source:0,target:1},
+{source:0,target:2},
+{source:1,target:0},
+{source:0,target:3},
+{source:0,target:4},
+{source:0,target:5},
+{source:0,target:6},
+{source:0,target:7},
+{source:0,target:8},
+{source:0,target:9},
+{source:0,target:10},
+{source:0,target:11},
+{source:0,target:12},
+{source:0,target:13},
+{source:0,target:14},
+{source:0,target:15},
+{source:0,target:16},
+{source:0,target:17},
+{source:0,target:18},
+{source:0,target:19},
+{source:0,target:20},
+{source:0,target:21},
+{source:0,target:22},
+{source:0,target:23},
+{source:0,target:24},
+{source:0,target:25},
+{source:0,target:26},
+{source:0,target:27},
+{source:0,target:28},
+{source:0,target:29},
+{source:0,target:30},
+{source:0,target:31},
+{source:0,target:32},
+{source:0,target:33},
+{source:0,target:34},
+{source:0,target:35},
+{source:0,target:36},
+{source:0,target:37},
+{source:0,target:38},
+{source:0,target:39},
+{source:0,target:40},
+{source:0,target:41},
+{source:0,target:42},
+{source:0,target:43},
+{source:0,target:44},
+{source:0,target:45},
+{source:0,target:46},
+{source:0,target:47},
+{source:0,target:48},
+{source:0,target:49},
+{source:0,target:50},
+{source:1,target:51},
+{source:1,target:52},
+{source:1,target:52},
+{source:1,target:53},
+{source:1,target:54},
+{source:1,target:55},
+{source:1,target:56},
+{source:1,target:57},
+{source:1,target:58},
+{source:1,target:59},
+{source:1,target:60},
+{source:1,target:61},
+{source:1,target:62},
+{source:1,target:63},
+{source:1,target:64},
+{source:1,target:65},
+{source:1,target:66},
+{source:1,target:67},
+{source:1,target:68},
+{source:1,target:69},
+{source:1,target:70},
+{source:1,target:71},
+{source:1,target:72},
+{source:1,target:73},
+{source:1,target:74},
+{source:1,target:75},
+{source:1,target:76},
+{source:1,target:77},
+{source:1,target:78},
+{source:1,target:79},
+{source:1,target:80},
+{source:1,target:81},
+{source:1,target:82},
+{source:1,target:83},
+{source:1,target:84},
+{source:1,target:85},
+{source:1,target:86},
+{source:1,target:87},
+{source:1,target:88},
+{source:1,target:89}
+
+    ]
+    };
+
+
+ 
+    var svg = d3.select("#scatterPlot").append("svg").attr({"width":w,"height":h});
+
+    var force = d3.layout.force()
+        .nodes(dataset.nodes)
+        .links(dataset.edges)
+        .size([w,h])
+        .linkDistance([linkDistance])
+        .charge([-500])
+        .theta(0.1)
+        .gravity(0.05)
+        .start();
+
+ 
+
+    var edges = svg.selectAll("line")
+      .data(dataset.edges)
+      .enter()
+      .append("line")
+      .attr("id",function(d,i) {return 'edge'+i})
+      .attr('marker-end','url(#arrowhead)')
+      .style("stroke","#ccc")
+      .style("pointer-events", "none");
+    
+    var nodes = svg.selectAll("circle")
+      .data(dataset.nodes)
+      .enter()
+      .append("circle")
+      .attr({"r":25})
+      .style("fill",function(d,i){return colors(i);})
+      .call(force.drag)
+
+
+    var nodelabels = svg.selectAll(".nodelabel") 
+       .data(dataset.nodes)
+       .enter()
+       .append("text")
+       .attr({"x":function(d){return d.x -300;},
+              "y":function(d){return d.y - 30;},
+              "class":"nodelabel",
+              "stroke":"black"})
+       .text(function(d){return d.name;});
+
+    var edgepaths = svg.selectAll(".edgepath")
+        .data(dataset.edges)
+        .enter()
+        .append('path')
+        .attr({'d': function(d) {return 'M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y},
+               'class':'edgepath',
+               'fill-opacity':0,
+               'stroke-opacity':0,
+               'fill':'blue',
+               'stroke':'red',
+               'id':function(d,i) {return 'edgepath'+i}})
+        .style("pointer-events", "none");
+
+    var edgelabels = svg.selectAll(".edgelabel")
+        .data(dataset.edges)
+        .enter()
+        .append('text')
+        .style("pointer-events", "none")
+        .attr({'class':'edgelabel',
+               'id':function(d,i){return 'edgelabel'+i},
+               'dx':80,
+               'dy':0,
+               'font-size':10,
+               'fill':'#aaa'});
+
+    edgelabels.append('textPath')
+        .attr('xlink:href',function(d,i) {return '#edgepath'+i})
+        .style("pointer-events", "none");
+        //.text(function(d,i){return 'label '+i}
+        //);
+
+
+    svg.append('defs').append('marker')
+        .attr({'id':'arrowhead',
+               'viewBox':'-0 -0 10 10',
+               'refX':25,
+               'refY':0,
+               //'markerUnits':'strokeWidth',
+               'orient':'auto',
+               'markerWidth':10,
+               'markerHeight':10,
+               'xoverflow':'visible'})
+        .append('svg:path')
+            .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
+            .attr('fill', '#ccc')
+            .attr('stroke','#ccc');
+     
+
+    force.on("tick", function(){
+
+        edges.attr({"x1": function(d){return d.source.x;},
+                    "y1": function(d){return d.source.y;},
+                    "x2": function(d){return d.target.x;},
+                    "y2": function(d){return d.target.y;}
+        });
+
+        nodes.attr({"cx":function(d){return d.x;},
+                    "cy":function(d){return d.y;}
+        });
+
+        nodelabels.attr("x", function(d) { return d.x; }) 
+                  .attr("y", function(d) { return d.y; });
+
+        edgepaths.attr('d', function(d) { var path='M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y;
+                                           //console.log(d)
+                                           return path});       
+
+        edgelabels.attr('transform',function(d,i){
+            if (d.target.x<d.source.x){
+                bbox = this.getBBox();
+                rx = bbox.x+bbox.width/2;
+                ry = bbox.y+bbox.height/2;
+                return 'rotate(280 '+rx+' '+ry+')';
+                }
+            else {
+                return 'rotate(0)';
+                }
+        });
+    });
+
+</script>
+
