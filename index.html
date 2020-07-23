@@ -76,8 +76,8 @@ body {font-family: Arial;}
 <!-- <p>Click on the x button in the top right corner to close the current tab:</p> -->
 
 <div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'Overview')" id="defaultOpen">Overview</button>
-  <button class="tablinks" onclick="openCity(event, 'Laptop')">Laptop</button>
+  <button class="tablinks" onclick="openCity(event, 'Overview')" id="defaultOpen" >Overview</button>
+  <button class="tablinks" onclick="openCity(event, 'Laptop')" >Laptop</button>
   <button class="tablinks" onclick="openCity(event, 'Desktop')">Desktop</button>
   <button class="tablinks" onclick="openCity(event, 'Keyboard')">Keyboards</button>
   <button class="tablinks" onclick="openCity(event, 'Monitors')">Monitors</button>
@@ -86,9 +86,9 @@ body {font-family: Arial;}
 </div>
 <div id="Overview" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <h3>Laptop</h3>
-  <p>Imapact of Covid-19 on 2020 Sales</p>
+  
   <svg class="chart"></svg>
+
 </div>
 
 <div id="Laptop" class="tabcontent">
@@ -194,11 +194,19 @@ var margin = 500;
     chart.append("g")
     .attr("transform", "translate(" + height + ",0 )")
         .call(d3.axisLeft(y));
+    chart.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y",  margin - 50)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Quantity Sold");  
     
     chart.append("g")
     .attr("transform", "translate("  + height + "," + margin + ")")
         .call(d3.axisBottom(x));
     
+     
 
 //---------------------Laptop
 
@@ -219,9 +227,9 @@ chartLaptop.attr("width",width )
         .data(dataLaptop)
         .enter().append("rect")
         .attr("width",45)
-        .attr("height",function(d) { return height - y(d); })
+        .attr("height",function(d) { return height - yl(d); })
         .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
-        .attr("y",function(d) { return  y(d) -height ; })
+        .attr("y",function(d) { return  yl(d) -height ; })
         .on("mousemove", function(d){
                 tooltip
                   .style("left", d3.event.pageX - 50 + "px")
@@ -236,6 +244,14 @@ chartLaptop.attr("width",width )
         chartLaptop.append("g")
     .attr("transform", "translate(" + height + ",0 )")
         .call(d3.axisLeft(yl));
+
+        chartLaptop.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y",  margin - 50)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Quantity Sold");  
     
         chartLaptop.append("g")
     .attr("transform", "translate("  + height + "," + margin + ")")
@@ -260,9 +276,9 @@ chartDesktop.attr("width",width )
         .data(dataDesktop)
         .enter().append("rect")
         .attr("width",45)
-        .attr("height",function(d) { return height - y(d); })
+        .attr("height",function(d) { return height - yd(d); })
         .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
-        .attr("y",function(d) { return  y(d) -height ; })
+        .attr("y",function(d) { return  yd(d) -height ; })
         .on("mousemove", function(d){
                 tooltip
                   .style("left", d3.event.pageX - 50 + "px")
@@ -278,6 +294,15 @@ chartDesktop.attr("width",width )
     .attr("transform", "translate(" + height + ",0 )")
         .call(d3.axisLeft(yd));
     
+    chartDesktop.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y",  margin - 50)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Quantity Sold");  
+        
+
     chartDesktop.append("g")
     .attr("transform", "translate("  + height + "," + margin + ")")
         .call(d3.axisBottom(xd));
@@ -300,9 +325,9 @@ chartKeyboard.attr("width",width )
         .data(dataKeyboard)
         .enter().append("rect")
         .attr("width",45)
-        .attr("height",function(d) { return height - y(d); })
+        .attr("height",function(d) { return height - yk(d); })
         .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
-        .attr("y",function(d) { return  y(d) -height ; })
+        .attr("y",function(d) { return  yk(d) -height ; })
         .on("mousemove", function(d){
                 tooltip
                   .style("left", d3.event.pageX - 50 + "px")
@@ -314,10 +339,18 @@ chartKeyboard.attr("width",width )
             })
         .on("mouseout", function(d){ tooltip.style("display", "none");});
        
-        chartKeyboard.append("g")
+    chartKeyboard.append("g")
     .attr("transform", "translate(" + height + ",0 )")
         .call(d3.axisLeft(yk));
     
+    chartKeyboard.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y",  margin - 50)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Quantity Sold");  
+
     chartKeyboard.append("g")
     .attr("transform", "translate("  + height + "," + margin + ")")
         .call(d3.axisBottom(xk));
@@ -340,9 +373,9 @@ chartMonotors.attr("width",width )
         .data(dataMonitors)
         .enter().append("rect")
         .attr("width",45)
-        .attr("height",function(d) { return height - y(d); })
+        .attr("height",function(d) { return height - ym(d); })
         .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
-        .attr("y",function(d) { return  y(d) -height ; })
+        .attr("y",function(d) { return  ym(d) -height ; })
         .on("mousemove", function(d){
                 tooltip
                   .style("left", d3.event.pageX - 50 + "px")
@@ -357,8 +390,16 @@ chartMonotors.attr("width",width )
     chartMonotors.append("g")
     .attr("transform", "translate(" + height + ",0 )")
         .call(d3.axisLeft(ym));
+       
+    chartMonotors.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y",  margin - 50)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Quantity Sold"); 
     
-    chartMonotors.append("g")
+      chartMonotors.append("g")
     .attr("transform", "translate("  + height + "," + margin + ")")
         .call(d3.axisBottom(xm));
 
