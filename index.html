@@ -72,8 +72,7 @@ body {font-family: Arial;}
 </head>
 <body>
 
-<h2>Technology products sale for different category of products</h2>
-<!-- <p>Click on the x button in the top right corner to close the current tab:</p> -->
+<h2>Covid-19 imapacts on the monthy product Sales in 2020</h2>
 
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'Overview')" id="defaultOpen" >Overview</button>
@@ -86,27 +85,27 @@ body {font-family: Arial;}
 </div>
 <div id="Overview" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  
+  <p>The graph below represents we had a drop in sales during April and May but it started recovering in June</p>
   <svg class="chart"></svg>
 
 </div>
 
 <div id="Laptop" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <h3>Laptop</h3>
+  <p>Sales of laptop went down in March but it started recovering as people started working from home and continued buying laptops </p>>
   <svg class="chartLaptop"></svg>
 </div>
 
 <div id="Desktop" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <h3>Desktop</h3>
+  <p>We see a big dip on desktop sales because people focused more on laptops compare to desktops as laptops are convienent if they are working from home</p>
   <p><span id="data"></span></p>
   <svg class="chartDesktop"></svg>
 </div>
 
 <div id="Keyboard" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <h3>Keyboards</h3>
+  <p>We can see a drop in keyboard sales as overall sales went down but people still buying keyboards</p>>
   <svg class="chartKeyboard"></svg>
 </div>
 
@@ -176,7 +175,7 @@ var margin = 500;
         .selectAll("rect")
         .data(data)
         .enter().append("rect")
-        .attr("width",45)
+        .attr("width",38)
         .attr("height",function(d) { return height - y(d); })
         .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
         .attr("y",function(d) { return  y(d) -height ; })
@@ -226,7 +225,7 @@ chartLaptop.attr("width",width )
         .selectAll("rect")
         .data(dataLaptop)
         .enter().append("rect")
-        .attr("width",45)
+        .attr("width",38)
         .attr("height",function(d) { return height - yl(d); })
         .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
         .attr("y",function(d) { return  yl(d) -height ; })
@@ -275,7 +274,7 @@ chartDesktop.attr("width",width )
         .selectAll("rect")
         .data(dataDesktop)
         .enter().append("rect")
-        .attr("width",45)
+        .attr("width",38)
         .attr("height",function(d) { return height - yd(d); })
         .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
         .attr("y",function(d) { return  yd(d) -height ; })
@@ -324,7 +323,7 @@ chartKeyboard.attr("width",width )
         .selectAll("rect")
         .data(dataKeyboard)
         .enter().append("rect")
-        .attr("width",45)
+        .attr("width",38)
         .attr("height",function(d) { return height - yk(d); })
         .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
         .attr("y",function(d) { return  yk(d) -height ; })
@@ -372,7 +371,7 @@ chartMonotors.attr("width",width )
         .selectAll("rect")
         .data(dataMonitors)
         .enter().append("rect")
-        .attr("width",45)
+        .attr("width",38)
         .attr("height",function(d) { return height - ym(d); })
         .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
         .attr("y",function(d) { return  ym(d) -height ; })
