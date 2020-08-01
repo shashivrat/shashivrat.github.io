@@ -72,7 +72,7 @@ body {font-family: Arial;}
 </head>
 <body>
 
-<h2>Covid-19 imapacts on the monthy product Sales in 2020</h2>
+<h2>Covid-19 impacts on the monthly product sales in 2020.</h2>
 
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'Overview')" id="defaultOpen" >Overview</button>
@@ -85,41 +85,40 @@ body {font-family: Arial;}
 </div>
 <div id="Overview" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <p>The graph below represents we had a drop in sales during April and May but it started recovering in June</p>
+  <p>The graph below represents we had a drop in sales during April and May but it started recovering in June.</p>
   <svg class="chart"></svg>
 
 </div>
 
 <div id="Laptop" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <p>Sales of laptop went down in March but it started recovering as people started working from home and continued buying laptops </p>>
+  <p>Sales of laptop went down in March but it started recovering as people started working from home and continued buying laptops. </p>>
   <svg class="chartLaptop"></svg>
 </div>
 
 <div id="Desktop" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <p>We see a big dip on desktop sales because people focused more on laptops compare to desktops as laptops are convienent if they are working from home</p>
+  <p>We see a big dip on desktop sales because people focused more on laptops compare to desktops as laptops are convenient if they are working from home.</p>
   <p><span id="data"></span></p>
   <svg class="chartDesktop"></svg>
 </div>
 
 <div id="Keyboard" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <p>We can see a drop in keyboard sales as overall sales went down but people still buying keyboards</p>>
+  <p>We can see a drop in keyboard sales as overall sales went down but people still buying keyboards.</p>>
   <svg class="chartKeyboard"></svg>
 </div>
 
 <div id="Monitors" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <h3>Keyboards</h3>
+ <p>Monitors are kind of same like laptop and keyboard where overall sales are down but people still busing as they are working from home.</p>>
   <svg class="chartMonitors"></svg>
 </div>
 
 <div id="Order-Distributions" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <p> All the orders are fullfilled from two warehouses. One of the warehouse is mailny responsible of delivering products on 
-    Eastern and other warehouse isresponsible for wasterns part of USA.</p>
-  <p> Please <a href="OrderDistribution.html">Click here</a> to view a graph of delivery distributions of orders to different states </p>
+  <p> All the orders are fullfilled from two warehouses. One of the warehouse is mailny responsible of delivering products on Eastern and other warehouse isresponsible for wasterns part of USA.</p>
+  <p> Please <a href="OrderDistribution.html">Click here</a> to view a graph of delivery distributions of orders to different states. </p>
   
 </div>
 
@@ -184,7 +183,7 @@ var margin = 500;
                   .style("left", d3.event.pageX - 50 + "px")
                   .style("top", d3.event.pageY - 70 + "px")
                   .style("display", "inline-block")
-                  .html("Total Quantity Sold :" + "<br>" + d);
+                  .html("Total Quantity Sold :" + "<br>" + d) + "K";
                   console.log(y(d));
                
             })
@@ -199,7 +198,7 @@ var margin = 500;
       .attr("x",0 - (height / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .text("Quantity Sold");  
+      .text("Quantity Sold (In Thousands)");  
     
     chart.append("g")
     .attr("transform", "translate("  + height + "," + margin + ")")
@@ -234,7 +233,7 @@ chartLaptop.attr("width",width )
                   .style("left", d3.event.pageX - 50 + "px")
                   .style("top", d3.event.pageY - 70 + "px")
                   .style("display", "inline-block")
-                  .html("Total Quantity Sold :" + "<br>" + d);
+                  .html("Total Quantity Sold :" + "<br>" + d+ "K");
                   console.log(y(d));
                
             })
@@ -250,7 +249,7 @@ chartLaptop.attr("width",width )
       .attr("x",0 - (height / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .text("Quantity Sold");  
+      .text("Quantity Sold (In Thousands)");  
     
         chartLaptop.append("g")
     .attr("transform", "translate("  + height + "," + margin + ")")
@@ -283,7 +282,7 @@ chartDesktop.attr("width",width )
                   .style("left", d3.event.pageX - 50 + "px")
                   .style("top", d3.event.pageY - 70 + "px")
                   .style("display", "inline-block")
-                  .html("Total Quantity Sold :" + "<br>" + d);
+                  .html("Total Quantity Sold :" + "<br>" + d+ "K");
                   console.log(y(d));
                
             })
@@ -299,7 +298,7 @@ chartDesktop.attr("width",width )
       .attr("x",0 - (height / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .text("Quantity Sold");  
+      .text("Quantity Sold (In Thousands)");  
         
 
     chartDesktop.append("g")
@@ -332,7 +331,7 @@ chartKeyboard.attr("width",width )
                   .style("left", d3.event.pageX - 50 + "px")
                   .style("top", d3.event.pageY - 70 + "px")
                   .style("display", "inline-block")
-                  .html("Total Quantity Sold :" + "<br>" + d);
+                  .html("Total Quantity Sold :" + "<br>" + d+ "K");
                   console.log(y(d));
                
             })
@@ -348,7 +347,7 @@ chartKeyboard.attr("width",width )
       .attr("x",0 - (height / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .text("Quantity Sold");  
+      .text("Quantity Sold (In Thousands)");  
 
     chartKeyboard.append("g")
     .attr("transform", "translate("  + height + "," + margin + ")")
@@ -380,7 +379,7 @@ chartMonotors.attr("width",width )
                   .style("left", d3.event.pageX - 50 + "px")
                   .style("top", d3.event.pageY - 70 + "px")
                   .style("display", "inline-block")
-                  .html("Total Quantity Sold :" + "<br>" + d);
+                  .html("Total Quantity Sold :" + "<br>" + d+ "K");
                   console.log(y(d));
                
             })
@@ -396,7 +395,7 @@ chartMonotors.attr("width",width )
       .attr("x",0 - (height / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .text("Quantity Sold"); 
+      .text("Quantity Sold (In Thousands)"); 
     
       chartMonotors.append("g")
     .attr("transform", "translate("  + height + "," + margin + ")")
