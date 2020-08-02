@@ -1,408 +1,497 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
-<style>
-body {font-family: Arial;}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <style>
+        body {
+            font-family: Arial;
+        }
 
-/* Style the tab */
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-}
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
 
-/* Style the buttons inside the tab */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 17px;
-}
+            /* Style the buttons inside the tab */
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+                font-size: 17px;
+            }
 
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ddd;
-}
+                /* Change background color of buttons on hover */
+                .tab button:hover {
+                    background-color: #ddd;
+                }
 
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #ccc;
-}
+                /* Create an active/current tablink class */
+                .tab button.active {
+                    background-color: #ccc;
+                }
 
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
-}
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
 
-/* Style the close button */
-.topright {
-  float: right;
-  cursor: pointer;
-  font-size: 28px;
-}
+        /* Style the close button */
+        .topright {
+            float: right;
+            cursor: pointer;
+            font-size: 28px;
+        }
 
-.topright:hover {color: red;}
+            .topright:hover {
+                color: red;
+            }
 
-.chart rect { fill: steelblue } 
-.chartLaptop rect { fill: steelblue } 
-.chartDesktop rect { fill: steelblue } 
-.chartKeyboard rect { fill: steelblue } 
-.chartMonitors rect { fill: steelblue } 
+        .chart rect {
+            fill: steelblue
+        }
 
-.toolTip {
-  position: absolute;
-  display: none;
-  min-width: 80px;
-  height: auto;
-  background: none repeat scroll 0 0 #ffffff;
-  border: 1px solid #6F257F;
-  padding: 14px;
-  text-align: center;
-}
-</style>
+        .chartLaptop rect {
+            fill: steelblue
+        }
+
+        .chartDesktop rect {
+            fill: steelblue
+        }
+
+        .chartKeyboard rect {
+            fill: steelblue
+        }
+
+        .chartMonitors rect {
+            fill: steelblue
+        }
+
+        .toolTip {
+            position: absolute;
+            display: none;
+            min-width: 80px;
+            height: auto;
+            background: none repeat scroll 0 0 #ffffff;
+            border: 1px solid #6F257F;
+            padding: 14px;
+            text-align: center;
+       
+        }
+        .title{
+          text-align: center;
+          background-color: rgb(146, 155, 155);
+        }
+    </style>
 </head>
 <body>
 
-<h2>Covid-19 impacts on the monthly product sales in 2020.</h2>
+    <h2 class="title" >Covid-19 impacts on the monthly product sales in 2020.</h2>
 
-<div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'Overview')" id="defaultOpen" >Overview</button>
-  <button class="tablinks" onclick="openCity(event, 'Laptop')" >Laptop</button>
-  <button class="tablinks" onclick="openCity(event, 'Desktop')">Desktop</button>
-  <button class="tablinks" onclick="openCity(event, 'Keyboard')">Keyboards</button>
-  <button class="tablinks" onclick="openCity(event, 'Monitors')">Monitors</button>
-  <button class="tablinks" onclick="openCity(event, 'Order-Distributions')">Order-Distributions</button>
- 
-</div>
-<div id="Overview" class="tabcontent">
-  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <p>The graph below represents we had a drop in sales during April and May but it started recovering in June.</p>
-  <svg class="chart"></svg>
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'Revenue')" id="defaultOpen">Overview</button>
+        <button class="tablinks" onclick="openCity(event, 'Overview')">All Products</button>
+        <button class="tablinks" onclick="openCity(event, 'Laptop')">Laptop</button>
+        <button class="tablinks" onclick="openCity(event, 'Desktop')">Desktop</button>
+        <button class="tablinks" onclick="openCity(event, 'Keyboard')">Keyboards</button>
+        <button class="tablinks" onclick="openCity(event, 'Monitors')">Monitors</button>
+        <button class="tablinks" onclick="openCity(event, 'Order-Distributions')">Order-Distributions</button>
 
-</div>
-
-<div id="Laptop" class="tabcontent">
-  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <p>Sales of laptop went down in March but it started recovering as people started working from home and continued buying laptops. </p>>
-  <svg class="chartLaptop"></svg>
-</div>
-
-<div id="Desktop" class="tabcontent">
-  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <p>We see a big dip on desktop sales because people focused more on laptops compare to desktops as laptops are convenient if they are working from home.</p>
-  <p><span id="data"></span></p>
-  <svg class="chartDesktop"></svg>
-</div>
-
-<div id="Keyboard" class="tabcontent">
-  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <p>We can see a drop in keyboard sales as overall sales went down but people still buying keyboards.</p>>
-  <svg class="chartKeyboard"></svg>
-</div>
-
-<div id="Monitors" class="tabcontent">
-  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
- <p>Monitors are kind of same like laptop and keyboard where overall sales are down but people still busing as they are working from home.</p>>
-  <svg class="chartMonitors"></svg>
-</div>
-
-<div id="Order-Distributions" class="tabcontent">
-  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-  <p> All the orders are fullfilled from two warehouses. One of the warehouse is mailny responsible of delivering products on Eastern and other warehouse isresponsible for wasterns part of USA.</p>
-  <p> Please <a href="OrderDistribution.html">Click here</a> to view a graph of delivery distributions of orders to different states. </p>
-  
-</div>
-
-<script>
-function openCity(evt, cityName) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
-
-//D3 code starts here
-
-//________________
-var margin = 500;
-    var width = 820;
-    var height = 520;
-    var padding = 200;
-    
-    var data =  [1525,3862,4736,2963,3209,4136];
-    var dataLaptop =[65,167,248,171,210,222];
-    var dataDesktop =  [42,90,78,33,39,43];
-    var dataKeyboard =  [64,137,236,110,111,126];
-    var dataMonitors =  [60, 127,208,95,96,111];
-    
-    
-    var x = d3.scaleBand()
-        .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
-        .range([0,width-margin]);
-        
-    var y = d3.scaleLinear()
-        .domain([0,5560])
-        .range([height -20,0]);
-    
-    var tooltip = d3.select("body").append("div").attr("class", "toolTip");
-    
-    var chart = d3.select(".chart");
-    
-    chart.attr("width",width )
-        .attr("height",height )
-        .append("g")
-            .attr("transform","translate(" + margin + "," + margin + ")")
-        .selectAll("rect")
-        .data(data)
-        .enter().append("rect")
-        .attr("width",38)
-        .attr("height",function(d) { return height - y(d); })
-        .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
-        .attr("y",function(d) { return  y(d) -height ; })
-        .on("mousemove", function(d){
-                tooltip
-                  .style("left", d3.event.pageX - 50 + "px")
-                  .style("top", d3.event.pageY - 70 + "px")
-                  .style("display", "inline-block")
-                  .html("Total Quantity Sold :" + "<br>" + d) + "K";
-                  console.log(y(d));
-               
-            })
-        .on("mouseout", function(d){ tooltip.style("display", "none");});
+    </div>
+    <div id="Revenue" class="tabcontent">
+        <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
        
-    chart.append("g")
-    .attr("transform", "translate(" + height + ",0 )")
-        .call(d3.axisLeft(y));
-    chart.append("text")
+        <div id="revenue"></div>
+        <p>The graph below represents total Revenue. We had a drop in sales during April and May but it started recovering in June.</p>
+
+    </div>
+    <div id="Overview" class="tabcontent">
+      <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+      
+      <svg class="chart"></svg>
+      <p>The graph below represents we had a drop in sales during April and May but it started recovering in June.</p>
+
+  </div>
+
+    <div id="Laptop" class="tabcontent">
+        <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+       
+        <svg class="chartLaptop"></svg>
+        <p>Sales of laptop went down in March but it started recovering as people started working from home and continued buying laptops. </p>
+    </div>
+
+    <div id="Desktop" class="tabcontent">
+        <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+        
+        <p><span id="data"></span></p>
+        <svg class="chartDesktop"></svg>
+        <p>We see a big dip on desktop sales because people focused more on laptops compare to desktops as laptops are convenient if they are working from home.</p>
+    </div>
+
+    <div id="Keyboard" class="tabcontent">
+        <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+        
+        <svg class="chartKeyboard"></svg>
+        <p>We can see a drop in keyboard sales as overall sales went down but people still buying keyboards.</p>
+    </div>
+
+    <div id="Monitors" class="tabcontent">
+        <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+        
+        <svg class="chartMonitors"></svg>
+        <p>Monitors are kind of same like laptop and keyboard where overall sales are down but people still busing as they are working from home.</p>
+    </div>
+
+    <div id="Order-Distributions" class="tabcontent">
+        <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+        <p> All the orders are fullfilled from two warehouses. One of the warehouse is mailny responsible of delivering products on Eastern and other warehouse isresponsible for wasterns part of USA.</p>
+        <p> Please <a href="OrderDistribution.html">Click here</a> to view a graph of delivery distributions of orders to different states. </p>
+
+    </div>
+
+    <script>
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        document.getElementById("defaultOpen").click();
+
+        
+
+var marginOverView = {top: 10, right: 30, bottom: 30, left: 100},
+    widthOverView = 1000 - marginOverView.left - marginOverView.right,
+    heightOverView = 400 - marginOverView.top - marginOverView.bottom;
+
+var svg = d3.select("#revenue")
+  .append("svg")
+    .attr("width", widthOverView + marginOverView.left + marginOverView.right)
+    .attr("height", heightOverView + marginOverView.top + marginOverView.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + marginOverView.left + "," + marginOverView.top + ")");
+
+d3.csv("https://raw.githubusercontent.com/shashivrat/shashivrat.github.io/master/OrderData.csv",
+
+
+function(d){
+    return { date : d3.timeParse("%Y-%m-%d")(d.date), value : d.value }
+  },
+
+  function(data) {
+
+    var x = d3.scaleTime()
+      .domain(d3.extent(data, function(d) { return d.date; }))
+      .range([ 1, widthOverView ]);
+    svg.append("g")
+      .attr("transform", "translate(100," + heightOverView + ")")
+      .call(d3.axisBottom(x));
+
+      var y = d3.scaleLinear()
+      .domain([0, d3.max(data, function(d) { return +d.value; })])
+      .range([ heightOverView, 0 ]);
+    svg.append("g")
+    .attr("transform", "translate(" + (heightOverView/2 - 70) + ",0 )")
+      .call(d3.axisLeft(y));
+
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function(d) { return (110 + x(d.date)) })
+        .y(function(d) { return y(d.value) })
+        )
+
+    svg.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y",  margin - 50)
-      .attr("x",0 - (height / 2))
+      .attr("y",  marginOverView - 100)
+      .attr("x",0 - (heightOverView / 2 - 00))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .text("Quantity Sold (In Thousands)");  
-    
-    chart.append("g")
-    .attr("transform", "translate("  + height + "," + margin + ")")
-        .call(d3.axisBottom(x));
-    
-     
-
-//---------------------Laptop
-
-var xl = d3.scaleBand()
-        .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
-        .range([0,width-margin]);
+      .text("Revenue");  
         
-    var yl = d3.scaleLinear()
-        .domain([0,250])
-        .range([height -20,0]);
-var chartLaptop = d3.select(".chartLaptop");
-    
-chartLaptop.attr("width",width )
-        .attr("height",height )
-        .append("g")
-            .attr("transform","translate(" + margin + "," + margin + ")")
-        .selectAll("rect")
-        .data(dataLaptop)
-        .enter().append("rect")
-        .attr("width",38)
-        .attr("height",function(d) { return height - yl(d); })
-        .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
-        .attr("y",function(d) { return  yl(d) -height ; })
-        .on("mousemove", function(d){
-                tooltip
-                  .style("left", d3.event.pageX - 50 + "px")
-                  .style("top", d3.event.pageY - 70 + "px")
-                  .style("display", "inline-block")
-                  .html("Total Quantity Sold :" + "<br>" + d+ "K");
-                  console.log(y(d));
-               
-            })
-        .on("mouseout", function(d){ tooltip.style("display", "none");});
+})
+
+//All Products
+        var margin = 500;
+        var width = 820;
+        var height = 520;
+        var padding = 200;
+
+        var data = [1525, 3862, 4736, 2963, 3209, 4136];
        
+
+        var x = d3.scaleBand()
+            .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
+            .range([0, width - margin]);
+
+        var y = d3.scaleLinear()
+            .domain([0, 5560])
+            .range([height - 20, 0]);
+
+        var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+        var chart = d3.select(".chart");
+
+        chart.attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + margin + "," + margin + ")")
+            .selectAll("rect")
+            .data(data)
+            .enter().append("rect")
+            .attr("width", 38)
+            .attr("height", function (d) { return height - y(d); })
+            .attr("x", function (d, i) { return ((i * (width - margin) / 6) + 20); })
+            .attr("y", function (d) { return y(d) - height; })
+            .on("mousemove", function (d) {
+                tooltip
+                    .style("left", d3.event.pageX - 50 + "px")
+                    .style("top", d3.event.pageY - 70 + "px")
+                    .style("display", "inline-block")
+                    .html("Total Quantity Sold :" + "<br>" + d) + "K";
+                console.log(y(d));
+
+            })
+            .on("mouseout", function (d) { tooltip.style("display", "none"); });
+
+        chart.append("g")
+            .attr("transform", "translate(" + height + ",0 )")
+            .call(d3.axisLeft(y));
+        chart.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", margin - 50)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Quantity Sold (In Thousands)");
+
+        chart.append("g")
+            .attr("transform", "translate(" + height + "," + margin + ")")
+            .call(d3.axisBottom(x));
+
+        //---------------------Laptop
+        var dataLaptop = [65, 167, 248, 171, 210, 222];
+      
+
+        var xl = d3.scaleBand()
+            .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
+            .range([0, width - margin]);
+
+        var yl = d3.scaleLinear()
+            .domain([0, 250])
+            .range([height - 20, 0]);
+        var chartLaptop = d3.select(".chartLaptop");
+
+        chartLaptop.attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + margin + "," + margin + ")")
+            .selectAll("rect")
+            .data(dataLaptop)
+            .enter().append("rect")
+            .attr("width", 38)
+            .attr("height", function (d) { return height - yl(d); })
+            .attr("x", function (d, i) { return ((i * (width - margin) / 6) + 20); })
+            .attr("y", function (d) { return yl(d) - height; })
+            .on("mousemove", function (d) {
+                tooltip
+                    .style("left", d3.event.pageX - 50 + "px")
+                    .style("top", d3.event.pageY - 70 + "px")
+                    .style("display", "inline-block")
+                    .html("Total Quantity Sold :" + "<br>" + d + "K");
+                console.log(y(d));
+
+            })
+            .on("mouseout", function (d) { tooltip.style("display", "none"); });
+
         chartLaptop.append("g")
-    .attr("transform", "translate(" + height + ",0 )")
-        .call(d3.axisLeft(yl));
+            .attr("transform", "translate(" + height + ",0 )")
+            .call(d3.axisLeft(yl));
 
         chartLaptop.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y",  margin - 50)
-      .attr("x",0 - (height / 2))
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .text("Quantity Sold (In Thousands)");  
-    
+            .attr("transform", "rotate(-90)")
+            .attr("y", margin - 50)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Quantity Sold (In Thousands)");
+
         chartLaptop.append("g")
-    .attr("transform", "translate("  + height + "," + margin + ")")
-        .call(d3.axisBottom(xl));
+            .attr("transform", "translate(" + height + "," + margin + ")")
+            .call(d3.axisBottom(xl));
 
-//---------------------Desktop
+        //---------------------Desktop
+        var dataDesktop = [42, 90, 78, 33, 39, 43];
+       
+        var xd = d3.scaleBand()
+            .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
+            .range([0, width - margin]);
 
-var xd = d3.scaleBand()
-        .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
-        .range([0,width-margin]);
-        
-    var yd = d3.scaleLinear()
-        .domain([0,100])
-        .range([height -20,0]);
-var chartDesktop = d3.select(".chartDesktop");
-    
-chartDesktop.attr("width",width )
-        .attr("height",height )
-        .append("g")
-            .attr("transform","translate(" + margin + "," + margin + ")")
-        .selectAll("rect")
-        .data(dataDesktop)
-        .enter().append("rect")
-        .attr("width",38)
-        .attr("height",function(d) { return height - yd(d); })
-        .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
-        .attr("y",function(d) { return  yd(d) -height ; })
-        .on("mousemove", function(d){
+        var yd = d3.scaleLinear()
+            .domain([0, 100])
+            .range([height - 20, 0]);
+        var chartDesktop = d3.select(".chartDesktop");
+
+        chartDesktop.attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + margin + "," + margin + ")")
+            .selectAll("rect")
+            .data(dataDesktop)
+            .enter().append("rect")
+            .attr("width", 38)
+            .attr("height", function (d) { return height - yd(d); })
+            .attr("x", function (d, i) { return ((i * (width - margin) / 6) + 20); })
+            .attr("y", function (d) { return yd(d) - height; })
+            .on("mousemove", function (d) {
                 tooltip
-                  .style("left", d3.event.pageX - 50 + "px")
-                  .style("top", d3.event.pageY - 70 + "px")
-                  .style("display", "inline-block")
-                  .html("Total Quantity Sold :" + "<br>" + d+ "K");
-                  console.log(y(d));
-               
+                    .style("left", d3.event.pageX - 50 + "px")
+                    .style("top", d3.event.pageY - 70 + "px")
+                    .style("display", "inline-block")
+                    .html("Total Quantity Sold :" + "<br>" + d + "K");
+                console.log(y(d));
+
             })
-        .on("mouseout", function(d){ tooltip.style("display", "none");});
-       
-    chartDesktop.append("g")
-    .attr("transform", "translate(" + height + ",0 )")
-        .call(d3.axisLeft(yd));
-    
-    chartDesktop.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y",  margin - 50)
-      .attr("x",0 - (height / 2))
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .text("Quantity Sold (In Thousands)");  
-        
+            .on("mouseout", function (d) { tooltip.style("display", "none"); });
 
-    chartDesktop.append("g")
-    .attr("transform", "translate("  + height + "," + margin + ")")
-        .call(d3.axisBottom(xd));
-//---------------------Keyboard
+        chartDesktop.append("g")
+            .attr("transform", "translate(" + height + ",0 )")
+            .call(d3.axisLeft(yd));
 
-var xk = d3.scaleBand()
-        .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
-        .range([0,width-margin]);
-        
-    var yk = d3.scaleLinear()
-        .domain([0,250])
-        .range([height -20,0]);
-var chartKeyboard = d3.select(".chartKeyboard");
-    
-chartKeyboard.attr("width",width )
-        .attr("height",height )
-        .append("g")
-            .attr("transform","translate(" + margin + "," + margin + ")")
-        .selectAll("rect")
-        .data(dataKeyboard)
-        .enter().append("rect")
-        .attr("width",38)
-        .attr("height",function(d) { return height - yk(d); })
-        .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
-        .attr("y",function(d) { return  yk(d) -height ; })
-        .on("mousemove", function(d){
+        chartDesktop.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", margin - 50)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Quantity Sold (In Thousands)");
+
+
+        chartDesktop.append("g")
+            .attr("transform", "translate(" + height + "," + margin + ")")
+            .call(d3.axisBottom(xd));
+        //---------------------Keyboard
+        var dataKeyboard = [64, 137, 236, 110, 111, 126];
+     
+        var xk = d3.scaleBand()
+            .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
+            .range([0, width - margin]);
+
+        var yk = d3.scaleLinear()
+            .domain([0, 250])
+            .range([height - 20, 0]);
+        var chartKeyboard = d3.select(".chartKeyboard");
+
+        chartKeyboard.attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + margin + "," + margin + ")")
+            .selectAll("rect")
+            .data(dataKeyboard)
+            .enter().append("rect")
+            .attr("width", 38)
+            .attr("height", function (d) { return height - yk(d); })
+            .attr("x", function (d, i) { return ((i * (width - margin) / 6) + 20); })
+            .attr("y", function (d) { return yk(d) - height; })
+            .on("mousemove", function (d) {
                 tooltip
-                  .style("left", d3.event.pageX - 50 + "px")
-                  .style("top", d3.event.pageY - 70 + "px")
-                  .style("display", "inline-block")
-                  .html("Total Quantity Sold :" + "<br>" + d+ "K");
-                  console.log(y(d));
-               
+                    .style("left", d3.event.pageX - 50 + "px")
+                    .style("top", d3.event.pageY - 70 + "px")
+                    .style("display", "inline-block")
+                    .html("Total Quantity Sold :" + "<br>" + d + "K");
+                console.log(y(d));
+
             })
-        .on("mouseout", function(d){ tooltip.style("display", "none");});
-       
-    chartKeyboard.append("g")
-    .attr("transform", "translate(" + height + ",0 )")
-        .call(d3.axisLeft(yk));
-    
-    chartKeyboard.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y",  margin - 50)
-      .attr("x",0 - (height / 2))
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .text("Quantity Sold (In Thousands)");  
+            .on("mouseout", function (d) { tooltip.style("display", "none"); });
 
-    chartKeyboard.append("g")
-    .attr("transform", "translate("  + height + "," + margin + ")")
-        .call(d3.axisBottom(xk));
-//---------------------Monitors
+        chartKeyboard.append("g")
+            .attr("transform", "translate(" + height + ",0 )")
+            .call(d3.axisLeft(yk));
 
-var xm = d3.scaleBand()
-        .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
-        .range([0,width-margin]);
-        
-var ym = d3.scaleLinear()
-        .domain([0,250])
-        .range([height -20,0]);
-var chartMonotors = d3.select(".chartMonitors");
-    
-chartMonotors.attr("width",width )
-        .attr("height",height )
-        .append("g")
-            .attr("transform","translate(" + margin + "," + margin + ")")
-        .selectAll("rect")
-        .data(dataMonitors)
-        .enter().append("rect")
-        .attr("width",38)
-        .attr("height",function(d) { return height - ym(d); })
-        .attr("x",function(d,i) { return ((i * (width - margin)/6) +20) ; })
-        .attr("y",function(d) { return  ym(d) -height ; })
-        .on("mousemove", function(d){
+        chartKeyboard.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", margin - 50)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Quantity Sold (In Thousands)");
+
+        chartKeyboard.append("g")
+            .attr("transform", "translate(" + height + "," + margin + ")")
+            .call(d3.axisBottom(xk));
+        //---------------------Monitors
+        var dataMonitors = [60, 127, 208, 95, 96, 111];
+        var xm = d3.scaleBand()
+            .domain(["Jan", "Feb", "Mar", "Apr", "May", "Jun"])
+            .range([0, width - margin]);
+
+        var ym = d3.scaleLinear()
+            .domain([0, 250])
+            .range([height - 20, 0]);
+        var chartMonotors = d3.select(".chartMonitors");
+
+        chartMonotors.attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + margin + "," + margin + ")")
+            .selectAll("rect")
+            .data(dataMonitors)
+            .enter().append("rect")
+            .attr("width", 38)
+            .attr("height", function (d) { return height - ym(d); })
+            .attr("x", function (d, i) { return ((i * (width - margin) / 6) + 20); })
+            .attr("y", function (d) { return ym(d) - height; })
+            .on("mousemove", function (d) {
                 tooltip
-                  .style("left", d3.event.pageX - 50 + "px")
-                  .style("top", d3.event.pageY - 70 + "px")
-                  .style("display", "inline-block")
-                  .html("Total Quantity Sold :" + "<br>" + d+ "K");
-                  console.log(y(d));
-               
+                    .style("left", d3.event.pageX - 50 + "px")
+                    .style("top", d3.event.pageY - 70 + "px")
+                    .style("display", "inline-block")
+                    .html("Total Quantity Sold :" + "<br>" + d + "K");
+                console.log(y(d));
+
             })
-        .on("mouseout", function(d){ tooltip.style("display", "none");});
-       
-    chartMonotors.append("g")
-    .attr("transform", "translate(" + height + ",0 )")
-        .call(d3.axisLeft(ym));
-       
-    chartMonotors.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y",  margin - 50)
-      .attr("x",0 - (height / 2))
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .text("Quantity Sold (In Thousands)"); 
-    
-      chartMonotors.append("g")
-    .attr("transform", "translate("  + height + "," + margin + ")")
-        .call(d3.axisBottom(xm));
+            .on("mouseout", function (d) { tooltip.style("display", "none"); });
+
+        chartMonotors.append("g")
+            .attr("transform", "translate(" + height + ",0 )")
+            .call(d3.axisLeft(ym));
+
+        chartMonotors.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", margin - 50)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Quantity Sold (In Thousands)");
+
+        chartMonotors.append("g")
+            .attr("transform", "translate(" + height + "," + margin + ")")
+            .call(d3.axisBottom(xm));
 
 
-</script>
-   
+    </script>
+
 </body>
-</html> 
+</html>
